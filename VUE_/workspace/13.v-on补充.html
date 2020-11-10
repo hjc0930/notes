@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @click="conso(666,123)">点击</button>
+        <input type="text" @keyup.enter="isMth">
+    </div>
+</body>
+<script>
+    let app = new Vue({
+        el:"#app",
+        methods:{
+            conso:function(a,b){
+                console.log("输出控制台");
+                console.log(a+","+b);
+            },
+            isMth:function(){
+                alert("123");
+            }
+        }
+    })
+</script>
+</html>
