@@ -207,7 +207,7 @@ let str = `我叫${name},我今年${age}岁`;
 
   - forEach(callback)：遍历数组
   - map(callback)：遍历数组，可返回对数组的item和index进行一定操作后的结果。
-  - filter(callback)：返回全部符合条件的元素
+  - filter(callback)：返回数组中全部符合条件的元素
   - find(callbakc)：返回数组中第一个符合条件的元素
   - findIndex(callback)：返回数组中第一个符合条件的元素的下标
   - some(callback)：返回布尔值，查找数组中是否有符合条件的元素(找到第一个符合条件的元素便会停止循环)
