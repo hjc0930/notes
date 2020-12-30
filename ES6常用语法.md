@@ -203,7 +203,7 @@ let str = `我叫${name},我今年${age}岁`;
   - indexOf(item)：返回对应元素的下标
   - copyWithin(target,[start,end))：在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组
 
-- 要传入回调函数的方法
+- 高阶函数
 
   - forEach(callback)：遍历数组
   - map(callback)：遍历数组，可返回对数组的item和index进行一定操作后的结果。
