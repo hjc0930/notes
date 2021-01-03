@@ -212,5 +212,55 @@ let str = `我叫${name},我今年${age}岁`;
   - findIndex(callback)：返回数组中第一个符合条件的元素的下标
   - some(callback)：返回布尔值，查找数组中是否有符合条件的元素(找到第一个符合条件的元素便会停止循环)
   - every(callbakc)：返回布尔值，遍历数组中的每一个元素是否都符合条件
-  - reduce(callback)：归并，为数组中的每一个元素依次执行回调函数，不包括数组中被删除或从未被赋值的元素
-
+  - reduce(callback(accumulator, currentValue, currentIndex, array),initialValue)：归并，为数组中的每一个元素依次执行回调函数，不包括数组中被删除或从未被赋值的元素
+  
+  ```js
+  // 各值的累加
+  const arr = [1,2,3,4,5];
+  const result = arr.reduce((acc, cur) => acc + cur);
+  
+  arr.forEach(item => console.log(item));
+  
+  // 数组降维
+  const result = [[1,2],[3,4],[5,6]].reduce((acc, cur) => [...acc, ...cur], []);
+  console.log(result);
+  
+  // 计算数组中每个元素出现的次数
+  const arr = ["1", "2", "3", "4", "2", "1", "1"];
+  
+  const result =  arr.reduce((acc, cur) => {
+      if( cur in acc ) {
+          acc[cur]++;
+      } else {
+          acc[cur] = 1;
+      }
+      return acc;
+  }, {});
+  
+  // 按属性对object分类
+  const people = [
+      { name: 'Alice', age: 21 },
+      { name: 'Max', age: 20 },
+      { name: 'Jane', age: 20 },
+  ]
+  
+  function groupBy( objectArray, property ) {
+  
+      return objectArray.reduce( (acc, obj) => {
+          const key = obj[property];
+  
+          if (!acc[key]) {
+              acc[key] = [];
+          }
+          acc[key].push(obj);
+  
+          return acc;
+      }, {});
+  
+  }
+  
+  const groupedPeople = groupBy(people, 'age');
+  console.log(groupedPeople);
+  ```
+  
+  
