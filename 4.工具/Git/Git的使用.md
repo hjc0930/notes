@@ -115,7 +115,7 @@ git remote add gitee git@gitee.com:imnoob/runoob-test.git
 ```
 
 - 提交代码
-```
+```bash
 //第一次提交
 $git push -u github master
 $git push -u gitee master
