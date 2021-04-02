@@ -22,7 +22,8 @@ $git init
 
 ![1603807764786](assets/1603807764786.png)
 
-> 在项目目录下创建.gitignore文件，可以在里面配置在追踪要忽略的文件夹或者文件
+- 在项目目录下创建`.gitignore`文件，可以在里面配置在追踪要忽略的文件夹或者文件
+
 ```
 //touch .gitignore
 # 追踪时忽略node_modules文件夹
@@ -33,7 +34,38 @@ $git init
 jq.js
 ```
 
+<<<<<<< HEAD
 ## 6.将工作区的文件提交到暂存区
+=======
+- 单独取消某个文件的跟踪
+
+```bash
+git update-index --assume-unchanged "a1-browser-server-service-isv-front/config/index.js"
+```
+
+- 将忽略跟踪的文件恢复跟踪
+
+```bash
+git update-index --no-assume-unchanged "a1-browser-server-service-isv-front/config/index.js"
+```
+
+- 查看被忽略跟踪的文件
+
+```bash
+git ls-files -v | grep '^h\ '
+```
+
+- 提交时取消一个文件的提交
+
+```bash
+# 先提交所有文件
+git add .
+# 再将单独某个文件取消提交
+git reset -- index.txt 
+```
+
+##### 6.将工作区的文件提交到暂存区
+>>>>>>> d94cecc84b965ab0365cd1f58f539d3769db9193
 
 ```
 //追踪指定文件

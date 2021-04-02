@@ -127,7 +127,7 @@ console.log('hell\u{6f}');
   - lastIndexOf(item)：返回指定字符串最后一次出现的位置
   - substring[start,end)：提取指定区间的字符串，索引不能为负值
   - slice[start,end)：提取指定区间的字符串（索引可以为负值，-1就是倒数第二位）
-  - substr(start,length)：返回指定长度的字符串
+  - substr(start,length)：返回指定长度的字符串，可以从末尾开始取数据(-2就是取后面两位)
   - concat(str1,str2...)：字符串拼接方法，连接两个或多个字符串，返回连接后的新字符串
   - toString()：返回字符串对象方法
   - toLowerCase()，把字符串转换成小写的
@@ -199,10 +199,10 @@ let str = `我叫${name},我今年${age}岁`;
     - 替换：任意参数，起始位置，删除的项数，插入任意数量的项数
   - fill()：使用一个固定值替换数组中的元素
   - join(分割符)：数组分割方法
-- reverse()：逆序输出数组
+  - reverse()：逆序输出数组
   - sort()：数组排序方法，默认按照ASCII值进行升序排序
   - copyWithin(target,[start,end))：在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组
-
+  
 - 高阶函数
 
   - forEach(callback)：遍历数组
@@ -212,7 +212,7 @@ let str = `我叫${name},我今年${age}岁`;
   - findIndex(callback)：返回数组中第一个符合条件的元素的下标
   - some(callback)：返回布尔值，查找数组中是否有符合条件的元素(找到第一个符合条件的元素便会停止循环)
   - every(callbakc)：返回布尔值，遍历数组中的每一个元素是否都符合条件
-  - reduce(callback(accumulator, currentValue, currentIndex, array),initialValue)：归并，为数组中的每一个元素依次执行回调函数，不包括数组中被删除或从未被赋值的元素
+  - reduce(callback(prev, curr, index, array),initValue)：归并，为数组中的每一个元素依次执行回调函数，不包括数组中被删除或从未被赋值的元素
   
   ```js
   // 各值的累加
