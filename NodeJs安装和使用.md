@@ -142,3 +142,30 @@ yarn config set cache-folder "E:\NodeJs\npm\npm_cache"
 ### 配置环境变量
 
 将`E:\NodeJs\npm\yarn_bin`填加到环境变量的path变量中，主要该目录下是否有自动生成的`bin`目录，若有，则添加`E:\NodeJs\npm\yarn_bin\bin`
+
+## 5.nrm
+
+nrm是npm的下载源管理工具
+
+- 安装
+
+```bash
+npm i nrm -g
+```
+
+- 使用
+
+| 命令             | 说明               |
+| ---------------- | ------------------ |
+| nrm ls           | 查看当前源         |
+| nrm use <源名称> | 切换下载源         |
+| nrm test         | 测试哪个源下载最快 |
+
+### 使用nrm可能出现的错误
+
+在windows中使用nrm可能会出现`process.env`无法识别的情况，则修改错误提示的第四行中的文件
+
+```js
+const NRMRC = path.join(process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'], '.nrmrc');
+```
+
