@@ -136,7 +136,7 @@ yarn config  set global-folder "E:\NodeJs\npm\yarn_dir"
 - **改变 yarn 全局cache位置(cache)**
 
 ```shell
-yarn config set cache-folder "E:\NodeJs\npm\npm_cache"
+yarn config set cache-folder "E:\NodeJs\npm\yarn_cache"
 ```
 
 ### 配置环境变量
