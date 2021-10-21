@@ -2,7 +2,7 @@
 
 > 这是我的个人学习笔记，主要记录了目前学到的理论知识
 
->此笔记也会同步更新到GitHub: https://github.com/hjc0930/notes
+>此笔记也会同步更新到Gitee: https://gitee.com/hjc0930/notes
 
 > 如果觉得这里面的知识帮助到了你，还望点个Star哦~~
 
