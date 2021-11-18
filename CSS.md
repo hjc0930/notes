@@ -179,7 +179,30 @@ table {
   -webkit-box-orient: vertical;
   ```
 
-## 8.居中方式
+## 8.line-height和height的区别
+
+height就是元素的高度值
+
+line-height是每一行文字的高度，如果文字换行，则整个格子高度会增大
+
+## 9.BFC
+
+块级格式化上下文，它是一个独立容器，决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。
+
+**创建规则：**
+
+- 根元素
+- float不是none的元素
+- 绝对定位的元素(position为absolute或fixed)
+- display取值为inline-block table-cell table-caption inline-flex之一的元素
+- overflow不是visible的元素
+
+**作用：**
+
+- 清除浮动
+- 阻止父子元素的margin折叠
+
+## 10.居中方式
 
 **单行的文本、inline 或 inline-block 元素**
 
@@ -254,28 +277,86 @@ text-align: center
 }
 ```
 
+**不固定宽高的块级盒子**
 
+- absolute + transform
 
-## 3.line-height和height的区别
+```css
+.praent {
+    position: relative;
+}
+.child {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%)
+}
+```
 
-height就是元素的高度值
+- line-height + vertical-align
 
-line-height是每一行文字的高度，如果文字换行，则整个格子高度会增大
+```css
+.parent {
+    line-height: 150px;
+    text-aligin: center;
+}
+.child {
+    display: inline-block;
+    line-height: initial;
+    vertical-align: middle;
+}
+```
 
-## 4.BFC
+- writing-mode
 
-块级格式化上下文，它是一个独立容器，决定了元素如何对其内容进行定位，以及与其他元素的关系和相互作用。
+```css
+.parent {
+    writing-mode: vertical-lr;
+    text-align: center;
+}
+.middle {
+    display: inline-block;
+    writing-mode: horizontal-tb;
+    width: 100%
+}
 
-**创建规则：**
+.child {
+    display: inline-block;
+}
+```
 
-- 根元素
-- float不是none的元素
-- 绝对定位的元素(position为absolute或fixed)
-- display取值为inline-block table-cell table-caption inline-flex之一的元素
-- overflow不是visible的元素
+- table-cell
 
-**作用：**
+```css
+.parent {
+    display: table-cell;
+    vertical-aligin:middle;
+    text-align: center;
+}
+.child {
+    display: inline-block;
+}
+```
 
-- 清除浮动
-- 阻止父子元素的margin折叠
+- flex 
+
+```css
+.parent {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+```
+
+- grid
+
+```css
+.parent {
+    display: grid;
+}
+.child {
+    justify-self: center;
+    align-self: center;
+}
+```
 
