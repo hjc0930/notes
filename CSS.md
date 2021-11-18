@@ -49,6 +49,210 @@ Flex属性分为两部分，一部分作于于容器，另一部分作于于容�
 - 内联样式：1000
 - id选择器：100
 - 类，伪类，属性选择器：10
-- 标签选择器，伪元素选择器：1
-- 通配符选择器：0
+- 元素选择器，伪元素选择器：1
+- 通配符选择器，后代选择器，兄弟选择器：0
+
+## 3.规则
+
+- @namespace：告诉CSS引擎必须考虑XML命名空间
+- @media：媒体查询
+- @page：描述打印文档时布局的变化
+- @font-face：描述将下载的外部字体
+- @keyframes：描述CSS动画关键帧
+
+- @import：用于告诉CSS引擎引入一个外部样式表
+
+**link和@import的区别**
+
+- link是HTML标签，除了能导入CSS外，还可以导入其他资源，比如图片，脚本和字体等；而@import是CSS语法，只能用来导入CSS
+- link导入的样式会在页面加载时同时加载，@import导入的样式需要等页面加载完成后再加载
+- link没有兼容性问题，@import不兼容ie5以下
+- link可以通过js操作访问
+
+## 4.继承性
+
+- 可继承属性：font-family font-style font-size font-weight color
+- 不可继承属性：weigth height margin padding
+
+## 5.清除浮动
+
+浮动的元素会脱离文档流，导致父元素高度塌陷
+
+- 通过BFC清除浮动
+
+```css
+.parent {
+    overflow: hidden;
+}
+```
+
+- 通过clear清除浮动
+
+```css
+.clearfix {
+    zoom: 1;
+}
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+```
+
+## 6.消除浏览器默认样式
+
+```css
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+```
+
+## 7.长文本处理
+
+- 字符超出部分换行
+
+  ```css
+  overflow-wrap: break-word;
+  ```
+
+- 字符超出部分使用连接字符
+
+  ```css
+  hyphens: auto;
+  ```
+
+- 单行文本超出省略
+
+  ```css
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  ```
+
+- 多行文本超出省略
+
+  ```css
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box-;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  ```
+
+## 8.居中方式
+
+**单行的文本、inline 或 inline-block 元素**
+
+- 水平居中
+
+```css
+text-align: center
+```
+
+- 垂直居中
+
+```css
+.single-line {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+// 或
+.single-line {
+    height: 100px;
+    line-height: 100px;
+}
+```
+
+**固定宽高的块级盒子**
+
+- absolute+负margin
+
+```css
+.parent {
+    position: relative;
+}
+.child {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -50px 0 0 -50px
+}
+```
+
+- absolute + margin auto
+
+```css
+.parent {
+    position: relative;
+}
+.child {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+```
+
+- absolute + calc
+
+```cs
+.parent {
+    position: relative;
+}
+.child {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: calc(50% - 50px);
+    top: calc(50% - 50px)
+}
+```
+
+
 
