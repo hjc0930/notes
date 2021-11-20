@@ -360,3 +360,144 @@ text-align: center
 }
 ```
 
+## 11.常用布局
+
+### 双栏布局(边栏定宽主栏自适应)
+
+- float+overflow(BFC原理)
+
+  ```css
+  aside {
+      float: left;
+      width: 200px
+  }
+  main {
+      overflow: hidden;
+  }
+  ```
+
+- float+margin
+
+  ```css
+  aside {
+      float: left;
+      width: 200px;
+  }
+  main {
+      margin-left:200px
+  }
+  ```
+
+- flex
+
+  ```css
+  layout {
+     display: flex;
+  }
+  aside {
+      width:200px
+  }
+  main {
+      flex-grow: 1
+  }
+  ```
+
+- grid
+
+  ```css
+  layout {
+      display: grid;
+      grid-template-columns: 200ox auto;
+  }
+  ```
+
+### 三栏布局(两侧定宽主栏自适应)
+
+- 圣杯布局
+
+  ```css
+  layout {
+      padding: 0 200px;
+  }
+  main {
+      float: left;
+      width: 100%;
+  }
+  aside {
+      float: left;
+      width: 200px;
+  }
+  left {
+      position: relative;
+      left: -200px;
+      margin-left: -100%;
+  }
+  right {
+      position: relative;
+      right: -200px;
+      margin-left: -200px
+  }
+  ```
+
+- 双飞翼布局
+
+  ```css
+  main {
+      float: left;
+      width: 100%;
+  }
+  .inner {
+      margin: 0 200px;
+  }
+  aside {
+      float: left;
+      width: 200px;
+  }
+  .left {
+      margin-left: -100%;
+  }
+  .right {
+      margin-left: -200px;
+  }
+  ```
+
+- float+overflow
+
+  ```css
+  aside {
+      width: 200px;
+  }
+  left {
+      float: left;
+  }
+  right {
+      float: right;
+  }
+  main {
+      overflow: hidden;
+  }
+  ```
+
+- flex
+
+  ```css
+  layout {
+      display: flex;
+  }
+  aside {
+      width: 200px;
+  }
+  main {
+      flex-grow: 1;
+  }
+  ```
+
+- grid
+
+  ```css
+  layout {
+      display: grid;
+      grid-template-columns: 200px auto 200px
+  }
+  ```
+
