@@ -501,3 +501,28 @@ text-align: center
   }
   ```
 
+## 12.Grid
+
+给`<div>`这类块状元素元素设置`display:grid`或者给`<span>`这类内联元素设置`display:inline-grid`，Grid布局即创建
+
+此时该div就是`grid容器`，其子元素称为`grid子项`
+
+| 容器属性              | 子项属性          |
+| --------------------- | ----------------- |
+| grid-template-columns | grid-column-start |
+| grid-template-rows    | grid-column-end   |
+| grid-template-areas   | grid-row-start    |
+| grid-template         | grid-row-end      |
+| grid-column-gap       | grid-column       |
+| grid-gap              | grid-row          |
+| justify-items         | grid-area         |
+| align-items           | justify-self      |
+| place-items           | align-self        |
+| justify-content       | place-self        |
+| align-content         |                   |
+| place-content         |                   |
+| grid-auto-columns     |                   |
+| grid-auto-rows        |                   |
+| grid-auto-flow        |                   |
+| grid                  |                   |
+
