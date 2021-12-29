@@ -260,3 +260,186 @@ http://www.baidu.com?query=1
 
 当我们要读取对象上的一个属性时，JavaScript引擎会先在该对象上寻找，如果找不到，就会沿着`__proto__`属性到它构造函数的实例原型上寻找，若实例原型上找不到，就会沿着**实例原型的原型(实例原型本质上是一个对象)**去`Object()`这个构造函数对应的实例原型上寻找，而对象的构造函数的实例原型的`__proto__`属性指向`null`，**原型链就是`__proto__`的检索路径**
 
+## 3.声明变量关键字
+
+### var
+
+- 使用var关键字声明的变量会被直接绑定到window对象上
+
+  ```js
+  var a = 2;
+  console.log(window.a); // 2
+  ```
+
+- 使用var关键字声明的变量存在变量提升，也就是说即使在声明之前输出该变量也不会报错
+
+  ```js
+  console.log(a) // undefined
+  var a = 2;
+  ```
+
+- 可以重复声明变量
+
+  ```js
+  var a = 1;
+  var a = 2;
+  console.log(a); // 2
+  ```
+
+### let和const
+
+- 使用let/const关键字声明的变量不存在变量提升
+
+  ```js
+  console.log(a); // Error
+  let a;
+  ```
+
+- 使用let/const关键字声明的变量存在暂时性死区
+
+  ```js
+  let a = 2;
+  {
+      console.log(a); // Error
+      let a = 3;
+  }
+  ```
+
+- 使用let/const关键字声明的变量无法重复声明
+
+  ```js
+  let a = 1;
+  let a = 2;
+  console.log(a); // Error
+  ```
+
+- 使用let/const关键字声明的变量，存在块级作用域
+
+  ```js
+  let a = 1;
+  {
+      let a = 2;
+      console.log(a); // 2
+  }
+  console.log(a); // 1
+  ```
+
+- 使用const关键字声明变量时，必须指定初始值
+
+  ```js
+  const a;
+  console.log(a); // Error
+  ```
+
+## 4.作用域
+
+作用域，指的是变量存在的范围。在JavaScript中，一共有三种作用域，分别是全局作用域，函数作用域和块级作用域
+
+### 全局作用域
+
+在全局声明的变量存在于全局作用域中
+
+```js
+var a = 1;
+
+function fn() {
+    console.log(a); // 1
+}
+```
+
+### 函数作用域
+
+在函数内声明的变量，无法在函数外获取
+
+```js
+function fn() {
+    var a = 1;
+    console.log(a); // 1
+}
+fn();
+console.log(a); // Error
+```
+
+对于`var`关键字来说，局部变量只能在函数内部声明，在其它区块中声明，一律都是全局变量
+
+```js
+if (true) {
+  var x = 5;
+}
+console.log(x);  // 5
+```
+
+### 函数内部的变量提升
+
+与全局作用域一样，函数作用域内部也会产生变量提升现象
+
+```js
+function fn() {
+    console.log(x); // undefined
+    if (false) {
+        var x;
+    }
+}
+fn();
+
+// 等同于
+function fn() {
+    var x;
+    console.log(x); // undefined
+}
+```
+
+### 函数本身的作用域
+
+函数本身也是一个值，也有自己的作用域，它的作用域和其它变量一样，就是声明时所在的作用域，与其运行时所在的作用域无关
+
+```js 
+var a = 1;
+
+function x() {
+  console.log(a);
+}
+
+function f() {
+  var a = 2;
+  x();
+}
+
+f() // 1
+```
+
+即使传入一个回调函数，其作用域也是绑定在其定义时所在的作用域
+
+```js
+var a = 1;
+
+function x() {
+    console.log(a);
+}
+
+function f(fn) {
+    var a = 2;
+    fn();
+}
+
+f(x) // 1
+```
+
+同样的，如果在函数内部定义的函数，其作用域就是绑定在函数内部
+
+```js
+var a = 1;
+
+function fn() {
+    var a = 2;
+
+    return function () {
+        console.log(a);
+    }
+}
+
+var x = fn();
+
+x(); // 2
+```
+
