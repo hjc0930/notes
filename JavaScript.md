@@ -459,3 +459,153 @@ Promise对象的缺点：
 - 无法取消，一旦新建它就会立即执行。
 - 如果不设置回调函数，Promise内部抛出的错误，不会反应到外部
 - 当处于`pending`状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成)
+
+## 6.继承
+
+- 原型链继承
+
+  直接将父类的实例赋值给子类的原型对象，缺点是所有继承的属性和方法都会在子类实例对象之间共享，无法做到属性私有化
+
+  ```js
+  function Parent() {
+      this.name = 'Parent';
+  }
+  
+  Parent.prototype.getName = function() {
+      return this.name;
+  }
+  
+  function Child() {}
+  Child.prototype = new Parent();
+  
+  const c = new Child();
+  const c2 = new Child2();
+  ```
+
+- 盗用构造函数继承
+
+  在子类构造函数中使用call(或apply)方法调用父类构造函数，缺点是子类无法使用父类原型对象上的属性和方法
+
+  ```js
+  function Parent() {
+      this.name = 'Parent';
+  }
+  
+  Parent.prototype.getName = function() {
+      return this.name;
+  }
+  
+  function Child() {
+      Parent.call(this)
+  }
+  
+  const c = new Child();
+  const c2 = new Child2();
+  ```
+
+- 组合式继承
+
+  结合原型链继承和盗用构造函数继承，缺点是父类的构造函数会被实例化两次，造成性能浪费
+
+  ```js
+  function Parent() {
+      this.name = 'Parent';
+  }
+  Parent.prototype.getName = function() {
+      return this.name;
+  }
+  
+  function Child() {
+      // 第二次调用父类
+      Parent.call(this)
+  }
+  Child.prototype = new Parent();// 第一次调用父类
+  Child.prototype.constructor = Child;
+  
+  const c = new Child();
+  const c2 = new Child2();
+  ```
+
+- 原型式继承
+
+  原型式继承可以无需明确定义构造函数而实现继承。使用Object.create()方法，对现有的普通对象进行一份浅拷贝，优点是无需调用构造函数，缺点是对象中的引用值共享同一内存，很可能造成值的篡改
+
+  ```js
+  const parent = {
+      name: 'parent',
+      age: 18,
+      getName: function() {
+          return this.name;
+      }
+  }
+  
+  const child1 = Object.create(parent);
+  const child2 = Object.create(parent);
+  ```
+
+- 寄生式继承
+
+  和原型式继承类型，多了一个用于继承的函数，在函数中会先基于原对象创建一个新的对象，然后再增强这个新对象，最后返回新对象
+
+  ```js
+  function _extend(parent) {
+      const object = Object.create(object);
+      object.prototype.getAge = function() {
+          return this.age;
+      }
+      return object;
+  }
+  
+  const parent = {
+      name: 'parent',
+      age: 18,
+      getName: function() {
+          return this.name;
+      }
+  }
+  
+  const child = _extend(parent);
+  ```
+
+- 寄生组合式继承
+
+  在组合继承的基础上加入寄生式继承，减少一次父类的调用
+
+  ```js
+  function _extend(parent, child) {
+      const object = Object.create(parent.prototype);
+      object.constructor = child; // 手动指定原型对象上的constructor指向子类
+      child.prototype = object;
+  }
+  
+  function Parent() {
+      this.name = 'Parent';
+  }
+  Parent.prototype.getName = function() {
+      return this.name;
+  }
+  
+  function Child() {
+      Parent.call(this);
+  }
+  _extend(Parent, Child);
+  
+  const c = new Child();
+  ```
+
+## 7.手写new
+
+- 创建一个新对象
+- 将该对象的原型指向构造函数的原型对象
+- 调用call(或apply)方法，将构造函数的this指向该对象
+- 判断构造函数的返回值是否是对象，若是则直接返回该对象，否则就返回这个创建的临时对象
+
+```js
+function _new(tarent, ...rest) {
+    const object = {};
+    Object.setPrototypeOf(object, target.prototype);
+    const result = tarent.apply(object, rest);
+    return (result instanceOf Object) ? result : object;
+}
+```
+
