@@ -609,3 +609,108 @@ function _new(tarent, ...rest) {
 }
 ```
 
+## 8.闭包
+
+一个函数和其周围状态的引用捆绑在一起，这样的组合就是闭包，闭包让你可以在一个内层函数中，访问到外层函数的作用域。
+
+在JavaScript中，任何闭包的使用场景基本上包含两点：创建私有变量，延长变量的生命周期
+
+- 柯里化函数：柯里化的目的在于避免频繁调用具有相同参数函数的同时，又能轻松的复用。
+- 函数的防抖和节流
+
+## 9.函数防抖和节流
+
+- 防抖：一个事件在n秒后执行一次，若在n秒内被重复触发，则重新计时
+
+  ```ts
+  function debounce(fn: Function,wait: number) {
+      let timer = 0;
+      return function(...args) {
+          if(timer) {
+              window.clearTimeout(timer);
+          }
+          timer = window.setTimeout(() => {
+              fn.apply(this, args);
+          }, wait)
+      }
+  }
+  
+  // 立即执行版本
+  function debounce(fn: Function, wait: number, immdiately = false) {
+    let timer = 0;
+  
+    return function (...args: unknown[]) {
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+  
+      if (immdiately) {
+        let callNow = !timer;
+        timer = window.setTimeout(() => {
+          timer = 0;
+        }, wait);
+  
+        if (callNow) {
+          fn.apply(this, args);
+        }
+      } else {
+        timer = window.setTimeout(() => {
+          fn.apply(this, args);
+        }, wait);
+      }
+    };
+  }
+  ```
+
+- 节流：一个事件在n秒内只执行一次，若在n秒内重复触发，只有一次生效
+
+  ```ts
+  function throttled(fn: Function, delay: number) {
+      let timer = 0;
+      return function(...args) {
+          if(timer) return;
+          timer = window.setTimeout(() => {
+              fn.apply(this, args);
+              timer = 0;
+          }, delay)
+      }
+  }
+  ```
+
+
+## 10.async await
+
+async函数是generator和Promise的语法糖，它可以让我们以同步的形式去处理异步问题，async函数返回的一定是一个Promise对象，内部可以使用await关键字，返回异步信息的结果，await关键字后面通常也是跟着一个Promise对象，也可以跟一个基本值
+
+- 手写实现async awiat函数的效果
+
+  ```js
+  function asyncGenerator(generatorFunc) {
+      return function () {
+          const gen = generatorFunc.apply(this, arguments);
+  
+          return new Promise((resolve, reject) => {
+              function step(key, arg) {
+                  let generatorResult;
+                  try {
+                      generatorResult = gen[key](arg);
+                  } catch (error) {
+                      reject(error)
+                  }
+  
+                  const { value, done } = generatorResult;
+  
+                  if (done) {
+                      return resolve(value)
+                  } else {
+                      return Promise.resolve(value).then(
+                          (val) => step('next', val),
+                          (err) => step('throw', err)
+                      )
+                  }
+              }
+              step('next');
+          })
+      }
+  }
+  ```
