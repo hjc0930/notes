@@ -7,7 +7,7 @@
 ### 浅拷贝实现
 
 - Object.assign()
-- 展开运算符(...)
+- 扩展运算符(...)
 - Array.prototype.slice()
 
 ### 深拷贝实现
