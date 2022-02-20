@@ -460,6 +460,47 @@ Promise对象的缺点：
 - 如果不设置回调函数，Promise内部抛出的错误，不会反应到外部
 - 当处于`pending`状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成)
 
+### 构造函数上的方法
+
+- Promise.all()：接受一个数组，数组中的每个成员都是一个Promise实例，返回一个新的Promise实例
+
+  - 只有成员中所有状态都变成resolve，新实例的状态才会变成resolve，只要有一个成员的状态变成reject，新实例的状态就会变成reject
+
+  - 如果成员有自己的catch方法，那么当该成员状态变成reject时，新实例的状态并不会变为reject
+
+- Promise.allSettled()
+
+  - 只有所有成员的状态发生了改变，包装实例才会结束
+  - 返回一个Promise对象，对象包裹着一个对象数组，每个对象有status和value字段，如果status的值为`rejected`，则返回`reason`字段
+  - 如果成员有自己的catch方法，则不会触发allSettled()的reject状态
+
+- Promise.race()
+
+  - race意为赛跑，只要有一个成员的状态率先改变，那么race的状态就直接发生改变并接受那个成员的返回值
+  - 如果成员有自己的catch方法，则不会触发race状态的改变
+
+- Promise.any()
+
+  - 与race类似，只要有一个参数实例变成resolve状态，包装器就会变为fulfilled状态，如果所有参数实例都变成rejected状态，包装器实例就会变成rejected状态
+
+- Promise.resolve()：将一个对象转为Promise对象
+
+  参数分为四种情况，分别如下：
+
+  - 参数是一个Promise实例，则原封不动地返回这个实例
+  - 参数是一个`thenable`对象，则会将这个对象转为Promise对象，并立即执行该对象的`then`方法
+  - 参数不是具有`then`方法的对象，或根本不是对象，`Promise.resolve()`会返回一个新的Promise对象，并且状态为`resolve`
+  - 没有参数时，直接返回一个`resolve`状态的Promise对象
+
+- Promise.reject()：返回一个状态为`rejected`的Promise对象
+
+### 实例上的方法
+
+- then()：是Promise实例状态发生改变时的回调，第一个参数是resolve状态的回调函数，第二个参数是rejected状态的回调函数，`then`方法返回值是一个Promise实例，这也是Promise可以进行链式书写的原因
+
+- catch()：catch方法是then方法第二个回调函数的别名，用于指定发生错误时的回调函数
+- finally()：用于指定不管Promise对象最后状态如何，都会执行的操作
+
 ## 6.继承
 
 - 原型链继承
@@ -714,3 +755,19 @@ async函数是generator和Promise的语法糖，它可以让我们以同步的�
       }
   }
   ```
+
+## 11.异步编程的实现方案
+
+- 回调函数：最常见的异步编程解决方式，缺点是多个回调函数嵌套会造成回调地狱，不利于维护
+- Promise：使用Promise可以将嵌套的回调函数作为链式调用，但多个then的链式调用，可能会造成代码语义不够明确
+- generator：generator函数可以在函数执行过程中，将函数的执行权转移出去，在函数外部我们还可以将执行权转移回来，当我们遇到异步函数执行的时候，将函数执行权转移出去，当异步函数执行完毕的时候我们再将执行权转移回来。因此我们在generator内部对于异步操作的方式，可以以同步的顺序来写。只需要我们考虑何时将函数执行权转移回来。所以我们需要一个自动执行generator的机制，比如co模块等方式来实现generator的自动执行
+- async函数：async函数其实就是generator和promise实现的一个自动执行的语法糖，它内部自带执行器，当函数内部执行到一个await语句时，如果语句返回一个promise对象，那么函数将会等待promise对象的状态变为resolve后再继续向下执行。因此我们可以将异步逻辑转换为同步的顺序来书写。
+
+## 12.co模块的原理
+
+Generator函数在处理异步操作时，需要一种自动执行的机制，当异步操作有了结果，能够自动交回执行权，两种方法可以做到这一点：
+
+- 回调函数：将异步操作包装成Thunk函数，在回调函数里面交回执行权
+- Promise对象，将异步操作包装成Promise对象，用`then`方法交回执行权
+
+> co模块其实就是将这两种自动执行权器包转成的一个模块，所以使用co的前提条件是，Generator函数的`yield`命令后面，只能是Thunk函数或Promise对象
