@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "> 这是我的个人学习笔记\r 主要记录了目前学到的前端知识。\r 也包括了一些博客文章的整理",
+  "main": "index.js",
+  "gitHooks": {
+    "commit-msg": "node scripts/verifyCommit.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/hjc0930/notes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "yorkie": "^2.0.0"
+  }
+}
