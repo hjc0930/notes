@@ -776,3 +776,39 @@ Generator函数在处理异步操作时，需要一种自动执行的机制，�
 
 - 观察者模式：一个对象(观察者)订阅另一个对象(主题)，当主题被激活的时候，触发观察者里面的事件
 - 发布订阅模式：订阅者把自己想要的事件注册到调度中心，当发布者触发事件时，由调度中心统一调度订阅者注册到调度中心的代码
+
+## 14.判断数据类型的方法
+
+- typeof：可以判断除`null`之外的基本数据类型和函数，其余的引用数据类型全部返回`object`
+
+- instanceof：判断某个引用数据类型是否是对应构造函数的实例
+
+  ```js
+  // 手写instanceof
+  function _instanceof(left, right) {
+      // 如果是基本数据类型，则直接返回false
+      if (typeof left !== 'object' || left === null) {
+          return false;
+      }
+      // 取右侧的实例原型
+      let rightProto = right.prototype;
+      // 取左侧的原型
+      let leftProto = Object.getPrototypeOf(left);
+  
+      while (true) {
+          if (leftProto === null) {
+              return false;
+          }
+  
+          if (leftProto === rightProto) {
+              return true;
+          }
+  
+          leftProto = Object.getPrototypeOf(leftProto)
+      }
+  }
+  ```
+
+- Object.prototype.toString.call()：因为toString()是Object实例原型上的方法，而Array，Function等类型作为Object的实例，都重写了toString方法，不同的对象类型调用toString方法，返回的值是不相同的，Array返回元素组成的字符串，Function返回函数体等，因此想要返回具体的类型，必须直接调用Object实例原型上的方法
+
+- constructor：每个对象的原型都指向其构造函数的实例原型，而实例原型上的`constructor`属性又直接指向对应的构造函数，因此直接调用`constructor`可以判断该对象是否是某个构造函数的实例
