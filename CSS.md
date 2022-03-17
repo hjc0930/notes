@@ -407,7 +407,7 @@ text-align: center
   ```css
   layout {
       display: grid;
-      grid-template-columns: 200ox auto;
+      grid-template-columns: 200px auto;
   }
   ```
 
