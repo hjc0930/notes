@@ -54,7 +54,7 @@ HTML5是HTML的新标准，其主要目标是无需任何额外的插件就可�
 `label`标签用来定义表单控制间的关系，当用户与该标签发生交互的时候，浏览器会自动对焦到绑定的表单标签上
 
 ```html
-<label for="Name">Number:</label> 
+<label for="Name">Number:</label>
 <input type=“text“ name="Name" id="Name"/>
 ```
 
